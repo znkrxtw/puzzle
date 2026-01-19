@@ -415,13 +415,19 @@ $bg-color-transparent: rgba(0 0 0 / 70%);
 .v-card.finished-game-teaser {
   .game-teaser-image {
     display: block;
-    background-repeat: no-repeat;
-    background-position: center;
-    background-size: cover;
     position: relative;
     padding-top: 56.25%;
     width: 100%;
-    background-color: #222;
+    background-color: #000000;
+
+    .game-teaser-img {
+      position: absolute;
+      top: 0;
+      left: 50%;
+      transform: translateX(-50%);
+      height: 100%;
+      object-fit: contain;
+    }
   }
 
   .game-teaser-inner {
@@ -868,9 +874,7 @@ kbd {
         height: 100%;
         width: 100%;
         position: absolute;
-        background-repeat: no-repeat;
-        background-position: center;
-        background-size: contain;
+        object-fit: contain;
       }
     }
   }

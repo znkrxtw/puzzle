@@ -4,6 +4,7 @@ import tseslint from "typescript-eslint"
 import base from "../eslint.base.mjs"
 
 export default [
+  { ignores: ['eslint.config.mjs'] },
   {files: ["**/*.{js,mjs,cjs,ts}"]},
   {
     languageOptions: {

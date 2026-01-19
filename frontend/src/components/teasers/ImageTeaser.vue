@@ -25,7 +25,7 @@
           <v-icon :icon="imageStateInfo.icon" /> {{ imageStateInfo.text }}
         </div>
         <h4 class="imageteaser-title">
-          {{ image.title || '<No Title>' }}
+          {{ image.title || noTitle }}
         </h4>
 
         <div
@@ -91,6 +91,8 @@ import { me, useNsfw } from '../../user'
 
 const { openReportImageDialog } = useDialog()
 
+const noTitle = '<No Title>'
+
 const props = withDefaults(defineProps<{
   image: ImageInfo
   edit?: boolean
@@ -117,12 +119,13 @@ const MIN_HEIGHT = 300
 const styles = computed(() => {
   const height = Math.max(MIN_HEIGHT, props.image.height)
   const width = height * aspectRatio.value
-  return {
+  const base: Record<string, string> = {
     paddingTop: (height / width * 100) + '%',
-    backgroundImage: `url('${url.value}')`,
-    backgroundSize: 'cover',
-    backgroundPosition: '50% 50%',
   }
+  base.backgroundImage = `url('${url.value}')`
+  base.backgroundSize = 'cover'
+  base.backgroundPosition = '50% 50%'
+  return base
 })
 
 const date = computed((): string => {

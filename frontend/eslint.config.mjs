@@ -5,6 +5,7 @@ import pluginVue from "eslint-plugin-vue"
 import base from '../eslint.base.mjs'
 
 export default [
+  { ignores: ['eslint.config.mjs'] },
   {files: ["**/*.{js,mjs,cjs,ts,vue}"]},
   {
     languageOptions: {
@@ -27,7 +28,8 @@ export default [
     languageOptions: {
       parserOptions: {
         parser: tseslint.parser,
-        project: true,
+        project: './tsconfig.json',
+        tsconfigRootDir: import.meta.dirname,
         extraFileExtensions: ['.vue'],
         sourceType: 'module',
       },

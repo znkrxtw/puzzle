@@ -37,14 +37,16 @@ export default function createRouter(
         res.status(400).send(`fit must be 'contain' or 'cover'`)
         return
       }
-      const resizedFilename = await server.imageResize.resizeImage(originalFile, targetFilename, w, h, fit, format)
-      if (!resizedFilename) {
+      const result = await server.imageResize.resizeImage(originalFile, targetFilename, w, h, fit, format)
+      if (!result) {
         res.status(500).send('unable to resize image')
         return
       }
 
-      res.header('Content-Type', 'image/' + format)
-      res.sendFile(resizedFilename)
+      // Content-Type is inferred from the file extension by sendFile, which
+      // matters because animated input is forced to webp regardless of the
+      // requested format.
+      res.sendFile(result.filename)
       return
     }
 
@@ -60,14 +62,13 @@ export default function createRouter(
         return
       }
 
-      const croppedFilename = await server.imageResize.restrictImage(originalFile, targetFilename, w, h, format)
-      if (!croppedFilename) {
+      const result = await server.imageResize.restrictImage(originalFile, targetFilename, w, h, format)
+      if (!result) {
         res.status(500).send('unable to restrict size image')
         return
       }
 
-      res.header('Content-Type', 'image/' + format)
-      res.sendFile(croppedFilename)
+      res.sendFile(result.filename)
       return
     }
 
@@ -93,13 +94,13 @@ export default function createRouter(
         return
       }
 
-      const croppedFilename = await server.imageResize.cropRestrictImage(originalFile, targetFilename, crop, 1920, 1920, format)
-      if (!croppedFilename) {
+      const result = await server.imageResize.cropRestrictImage(originalFile, targetFilename, crop, 1920, 1920, format)
+      if (!result) {
         res.status(500).send('unable to crop restrict image')
         return
       }
 
-      res.sendFile(croppedFilename)
+      res.sendFile(result.filename)
       return
     }
 
@@ -121,14 +122,13 @@ export default function createRouter(
         return
       }
 
-      const croppedFilename = await server.imageResize.cropImage(originalFile, targetFilename, crop, format)
-      if (!croppedFilename) {
+      const result = await server.imageResize.cropImage(originalFile, targetFilename, crop, format)
+      if (!result) {
         res.status(500).send('unable to crop image')
         return
       }
 
-      res.header('Content-Type', 'image/' + format)
-      res.sendFile(croppedFilename)
+      res.sendFile(result.filename)
       return
     }
 
